@@ -17,9 +17,6 @@ RESULTS      = results/most-common-word.dat
 
 all: $(RESULTS)
 
-results:
-	mkdir $@
-
 results/most-common-word.dat: scripts/most-common-word.py $(WORDS) | results
 	python3 $^ $@
 
@@ -28,6 +25,9 @@ results/%.json: scripts/count-words.py results/%.normalised.txt | results
 
 results/%.normalised.txt: scripts/normalise.py data/%.txt | results
 	python3 $^ $@
+
+results:
+	mkdir $@
 
 clean:
 	rm -f $(NORMALISED)
