@@ -10,10 +10,10 @@ DATA = data/pg11.txt \
        data/pg5200.txt \
        data/pg6130.txt
 
-NORMALISED   = $(DATA:data/%.txt=results/%.normalised.txt)
-WORDS        = $(DATA:data/%.txt=results/%.json)
+NORMALISED = $(DATA:data/%.txt=results/%.normalised.txt)
+WORDS      = $(DATA:data/%.txt=results/%.json)
 
-RESULTS      = results/most-common-word.dat
+RESULTS    = results/most-common-word.dat
 
 all: $(RESULTS)
 
