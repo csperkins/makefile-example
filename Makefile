@@ -13,10 +13,9 @@ DATA = data/pg11.txt \
 NORMALISED   = $(DATA:data/%.txt=results/%.normalised.txt)
 WORDS        = $(DATA:data/%.txt=results/%.json)
 
-INTERMEDIATE = $(NORMALISED) $(WORDS)
 RESULTS      = results/most-common-word.dat
 
-all: $(INTERMEDIATE) $(RESULTS)
+all: $(RESULTS)
 
 results:
 	mkdir $@
@@ -44,6 +43,23 @@ clean:
 # output file. With this target specified, such files are automatically
 # cleaned-up by make.
 .DELETE_ON_ERROR:
+
+# The presence of the .NOTINTERMEDIATE target with no dependencies tells
+# make not to delete intermediate files.  An intermediate file is a file
+# that's created by applying a chain of pattern rules but that isn't
+# explicitly mentioned as a dependency of any rule. 
+#
+# In this Makefile, files matching the pattern results/%.normalised.txt
+# are intermediate files. They're built as part of a chain of pattern rules
+# (results/%.json <- results/%.normalised.txt <- data/%.txt), but there is
+# no rule that explicitly depends on the list of files with names matching
+# the intermediate step (the depenency of results/most-common-words.dat on
+# $(WORDS) gives an explicit dependency on files matching results/%.json,
+# but there is no such explicit dependency on the files matching
+# results/%.normalised.txt)
+#
+# The use of .NOTINTERMEDIATE equires GNU make v4.4.1 or later.
+.NOTINTERMEDIATE:
 
 # Configuration for make:
 #   --output-sync
